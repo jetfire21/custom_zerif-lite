@@ -1939,3 +1939,16 @@ function add_my_currency_symbol( $currency_symbol, $currency ) {
      }
      return $currency_symbol;
 }
+
+add_action('after_setup_theme', 'remove_admin_bar');
+function remove_admin_bar() {
+	  show_admin_bar(false);
+}
+
+add_filter( 'body_class', 'custom_class' );
+function custom_class( $classes ) {
+    if ( is_page_template( 'tpl_home.php' ) ) {
+        $classes[] = 'woocommerce woocommerce-page';
+    }
+    return $classes;
+}

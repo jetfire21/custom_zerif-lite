@@ -249,6 +249,55 @@ if ( is_customize_preview() ) {
 
 <?php zerif_bottom_body_trigger(); ?>
 <!-- тест системных функций -->
+<?php 
+// echo do_shortcode('[recent_products limit="4"]');
+/*
+$params = array('posts_per_page' => 4, 'post_type' => 'product', 'product_tag' => 'хит1');
+$wc_query = new WP_Query($params);
+?>
+<?php if ($wc_query->have_posts()) : ?>
+<?php while ($wc_query->have_posts()) :
+                $wc_query->the_post(); ?>
+<?php the_title(); ?>
+<?php the_post_thumbnail(); ?>
+<?php the_content(); ?>
+<?php endwhile; ?>
+<?php wp_reset_postdata(); ?>
+<?php else:  ?>
+<p>
+     <?php _e( 'No Products'); ?>
+</p>
+<?php endif; */ ?>
+
+<?php
+ // function recent_products( $atts ) {
+	// 	$atts = shortcode_atts( array(
+	// 		'per_page' => '12',
+	// 		'columns'  => '4',
+	// 		'orderby'  => 'date',
+	// 		'order'    => 'desc',
+	// 		'category' => '',  // Slugs
+	// 		'operator' => 'IN', // Possible values are 'IN', 'NOT IN', 'AND'.
+	// 	), $atts, 'recent_products' );
+
+	// 	$query_args = array(
+	// 		'post_type'           => 'product',
+	// 		'post_status'         => 'publish',
+	// 		'ignore_sticky_posts' => 1,
+	// 		'posts_per_page'      => $atts['per_page'],
+	// 		'orderby'             => $atts['orderby'],
+	// 		'order'               => $atts['order'],
+	// 		'meta_query'          => WC()->query->get_meta_query(),
+	// 		'tax_query'           => WC()->query->get_tax_query(),
+	// 	);
+
+	// 	$query_args = self::_maybe_add_category_args( $query_args, $atts['category'], $atts['operator'] );
+
+	// 	return self::product_loop( $query_args, $atts, 'recent_products' );
+	// }
+
+
+?>
 
 </body>
 
