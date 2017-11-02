@@ -6926,3 +6926,80 @@ body.custom-background {
 .woocommerce-page .products h2 { line-height: 18px; }
 .as21_wrap_search{ float:left;margin-top:13px; }
 input[type="submit"]{padding: 5px 15px; }
+
+.home-bg-img{
+	background: url('images/bg-home_h600.jpg')  center center;
+	height: 600px;
+	width: 100%;
+	position: relative;
+}
+.home-bg-img .as21-wrap-text{
+	 display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    margin: auto;
+    height: 60px;
+}
+.home-bg-img .as21_inside_hbi{
+	display: table;
+	/*background: #2c2c4e;  */
+	     background: rgba(0,0,0,0.5);
+
+     height: 60px;
+     margin:auto;
+     padding: 20px 40px;
+
+}
+.home-bg-img h2{
+	 color: #fff;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+        margin-bottom: 0;
+}
+
+.woocommerce-MyAccount-navigation ul li:first-child, li.woocommerce-MyAccount-navigation-link--dashboard{
+	display: none !important;
+}
+
+.as21_head_address, .as21_head_contacts{ float: left; margin-left: 25px; padding: 7px;}
+.as21_head_contacts{float:right;}
+.as21_head_contacts span{display:block; font-size: 12px; line-height: 14px;}
+.as21-wrap-main-menu{ background: #b8341d ; width: 100% !important;}
+#site-navigation {float: left;}
+.navbar-inverse .navbar-nav > li > a{ color: #fff; }
+.navbar-inverse .navbar-nav > li {margin-top: 0; padding-top:10px; padding-bottom: 10px;}
+#main-nav {position: static !important;}
+.as21_home_brands { background: #d8d7dd; padding: 45px 0;}
+.as21_home_brands img{ max-height: 110px;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: auto; }
+.as21_home_brands .col-md-2, .as21_home_brands .col-md-3{height: 110px; position: relative; width: 20%;}
+.as21_menu_cart {position: relative;}
+.as21_menu_cart .fa{
+	font-size: 20px;
+    color: #fff;
+}
+
+.as21_menu_cart span{
+	background: #000;
+    height: 18px;
+    width: 18px;
+    display: block;
+    border-radius: 9px;
+    position: absolute;
+    top: 10px;
+    left: 21px;
+    color: #fff;
+    font-size: 11px;
+    text-align: center;
+    font-family: tahoma;
+    padding-top: 1px;
+}

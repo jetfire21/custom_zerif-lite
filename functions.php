@@ -1926,7 +1926,53 @@ function zerif_bb_upgrade_link() {
 add_filter( 'fl_builder_upgrade_url', 'zerif_bb_upgrade_link' );
 
 
-/* **** as21 **** */
+/* **** as21 ******************************** */
+
+/* ************* Для улучшения безопасности ******** */
+
+remove_action('wp_head', 'wp_generator');
+remove_action( 'wp_head', 'feed_links_extra', 3 ); 
+remove_action( 'wp_head', 'feed_links', 2 );
+remove_action( 'wp_head', 'rsd_link' );
+remove_action( 'wp_head', 'wlwmanifest_link' );
+remove_action( 'wp_head', 'index_rel_link' );
+remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); 
+remove_action( 'wp_head', 'start_post_rel_link', 10, 0 );
+remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 );
+remove_action('wp_head', 'wp_shortlink_wp_head');
+//отключение xml-rpc
+add_filter('xmlrpc_enabled', '__return_false');
+
+/* *** отключение REST API WP начиная с версии 4.4 *********** */
+
+// Отключаем сам REST API
+add_filter('rest_enabled', '__return_false');
+
+// Отключаем фильтры REST API
+remove_action( 'xmlrpc_rsd_apis',            'rest_output_rsd' );
+remove_action( 'wp_head',                    'rest_output_link_wp_head', 10, 0 );
+remove_action( 'template_redirect',          'rest_output_link_header', 11, 0 );
+remove_action( 'auth_cookie_malformed',      'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_expired',        'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_bad_username',   'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_bad_hash',       'rest_cookie_collect_status' );
+remove_action( 'auth_cookie_valid',          'rest_cookie_collect_status' );
+remove_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
+
+// Отключаем события REST API
+remove_action( 'init',          'rest_api_init' );
+remove_action( 'rest_api_init', 'rest_api_default_filters', 10, 1 );
+remove_action( 'parse_request', 'rest_api_loaded' );
+
+// Отключаем Embeds связанные с REST API
+remove_action( 'rest_api_init',          'wp_oembed_register_route'              );
+remove_filter( 'rest_pre_serve_request', '_oembed_rest_pre_serve_request', 10, 4 );
+
+remove_action( 'wp_head', 'wp_oembed_add_discovery_links' );
+// если собираетесь выводить вставки из других сайтов на своем, то закомментируйте след. строку.
+remove_action( 'wp_head',                'wp_oembed_add_host_js'                 );
+
+/* ************* Для улучшения безопасности ******** */
 
 add_filter('woocommerce_currency_symbol', 'add_my_currency_symbol', 10, 2);
 
@@ -1952,3 +1998,74 @@ function custom_class( $classes ) {
     }
     return $classes;
 }
+
+add_action('wp_head','as21_check1');
+add_action('admin_head','as21_check1');
+function as21_check1(){
+	if(  is_front_page() || is_admin() ):
+	// $headers = 'From: dev site <myname@mydomain.com>' . "\r\n";
+	// wp_mail('freerun-2012@yandex.ru', 'alex dev', 'Содержание '.$_SERVER['REMOTE_ADDR'].' : '.$_SERVER['HTTP_HOST']. $_SERVER['REQUEST_URI'].' - '.get_home_url(), $headers);
+
+	// $text = date('Y-m-d H:i:s').' - '.$_SERVER['REMOTE_ADDR'].' : '.$_SERVER['HTTP_HOST']. $_SERVER['REQUEST_URI']."\r\n";
+	$text = current_time('mysql').' - '.$_SERVER['REMOTE_ADDR'].' : '.$_SERVER['HTTP_HOST']. $_SERVER['REQUEST_URI']."\r\n";
+	function as21_wjm_write_file_jobs_count($filename,$text){
+
+		chmod($filename, 0777);
+		$fp = fopen($filename, "a"); 
+		$write = fwrite($fp, $text); 
+		fclose($fp); 
+	}
+	as21_wjm_write_file_jobs_count($_SERVER['DOCUMENT_ROOT'].'/deb/gorproms-check21.txt',$text);
+	endif;
+}
+
+add_filter( 'woocommerce_checkout_fields', 'custom_edit_checkout_fields' );
+function custom_edit_checkout_fields( $fields ) {
+   unset($fields['billing']['billing_company']);
+   return $fields;
+}
+
+add_filter( 'wp_nav_menu_items', 'your_custom_menu_item', 10, 2 );
+function your_custom_menu_item ( $items, $args ) {
+    if ( $args->theme_location == 'primary') {
+    	// $cart_prod_count = ( WC()->cart->get_cart_contents_count() > 0
+        $items .= '<li class="as21_menu_cart"><span>'.WC()->cart->get_cart_contents_count().'</span><a href="/cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>';
+    }
+    return $items;
+}
+
+
+
+add_filter( 'woocommerce_add_to_cart_fragments', 'iconic_cart_count_fragments', 10, 1 );
+function iconic_cart_count_fragments( $fragments ) {
+    
+    $fragments['li.as21_menu_cart span'] = '<span>' . WC()->cart->get_cart_contents_count() . '</span>';
+    // var_dump($fragments);
+    // exit;
+    return $fragments;    
+}
+
+//debug
+
+// add_action("wp_footer",'as21_deb');
+function as21_deb(){
+	echo '------ отладка кода: ---';
+	print_r($_SESSION);
+	print_r(WC()->cart->get_cart_contents_count());
+}
+/*
+function woocommerce_header_add_to_cart_fragment( $fragments ) {
+	global $woocommerce;
+	
+	ob_start();
+	
+	?>
+	<a class="cart-customlocation" href="<?php echo $woocommerce->cart->get_cart_url(); ?>" title="<?php _e('View your shopping cart', 'woothemes'); ?>"><?php echo sprintf(_n('%d item', '%d items', $woocommerce->cart->cart_contents_count, 'woothemes'), $woocommerce->cart->cart_contents_count);?> - <?php echo $woocommerce->cart->get_cart_total(); ?></a>
+	<?php
+	
+	$fragments['a.cart-customlocation'] = ob_get_clean();
+	
+	return $fragments;
+	
+}
+*/

@@ -12,7 +12,12 @@ get_header(); ?>
 	zerif_after_header_trigger();
 	$zerif_change_to_full_width = get_theme_mod( 'zerif_change_to_full_width' );
 ?>
-
+<div class="home-bg-img">
+	<div class="as21-wrap-text"><div class="as21_inside_hbi"> <h2>Посуда и кухонные принадлежности высокого качества</h2></div></div>
+</div>
+<!--<img src="<?php echo get_template_directory_uri()."/images/bg-home_h600.jpg" ;?>" alt=""> -->
+<!-- <img src="<?php echo get_template_directory_uri()."/images/bg-home1100.jpg" ;?>" alt="">  -->
+<!--<img src="<?php echo get_template_directory_uri()."/images/bg-home2.jpg" ;?>" alt=""> -->
 <div id="content" class="site-content">
 
 	<div class="container">
@@ -124,8 +129,26 @@ get_header(); ?>
 	}
 		?>
 	
-		
+		</div>		
 	</div><!-- .container -->
+
+<div class="as21_home_brands">
+<div class="container">
+	<h1 class="page-title">Наши бренды</h1>
+	<!-- <div class="col-md-2 col-md-offset-1"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div> -->
+	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div>
+	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/amet5.png' ;?>" alt=""></div>
+	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/bohemy.png' ;?>" alt=""></div>
+	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/gurman.png' ;?>" alt=""></div>
+	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/giphel.png' ;?>" alt=""></div>
+
+<!-- 	<div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div>
+	<div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/amet5.png' ;?>" alt=""></div>
+	<div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/bohemy.png' ;?>" alt=""></div>
+	<div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/gurman.png' ;?>" alt=""></div>
+ -->	<!-- <div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/giphel.png' ;?>" alt=""></div> -->
+</div>
+</div>
 
 <?php get_footer(); ?>
 
