@@ -13,6 +13,7 @@ get_header(); ?>
 	$zerif_change_to_full_width = get_theme_mod( 'zerif_change_to_full_width' );
 ?>
 <div class="home-bg-img">
+	<img class="berg-logo-right" src="<?php echo get_template_directory_uri();?>/images/brands/ber-trans-phs-white-s.png" alt="">
 	<div class="as21-wrap-text"><div class="as21_inside_hbi"> <h2>Посуда и кухонные принадлежности высокого качества</h2></div></div>
 </div>
 <!--<img src="<?php echo get_template_directory_uri()."/images/bg-home_h600.jpg" ;?>" alt=""> -->
@@ -136,11 +137,11 @@ get_header(); ?>
 <div class="container">
 	<h1 class="page-title">Наши бренды</h1>
 	<!-- <div class="col-md-2 col-md-offset-1"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div> -->
-	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div>
-	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/amet5.png' ;?>" alt=""></div>
-	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/bohemy.png' ;?>" alt=""></div>
-	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/gurman.png' ;?>" alt=""></div>
-	<div class="col-md-2"><img src="<?php echo get_template_directory_uri().'/images/brands/giphel.png' ;?>" alt=""></div>
+	<div class="col-md-2 brand-col"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div>
+	<div class="col-md-2 brand-col"><img src="<?php echo get_template_directory_uri().'/images/brands/amet5.png' ;?>" alt=""></div>
+	<div class="col-md-2 brand-col"><img src="<?php echo get_template_directory_uri().'/images/brands/bohemy.png' ;?>" alt=""></div>
+	<div class="col-md-2 brand-col"><img src="<?php echo get_template_directory_uri().'/images/brands/gurman.png' ;?>" alt=""></div>
+	<div class="col-md-2 brand-col"><img src="<?php echo get_template_directory_uri().'/images/brands/giphel.png' ;?>" alt=""></div>
 
 <!-- 	<div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/berghoff2.png' ;?>" alt=""></div>
 	<div class="col-md-3"><img src="<?php echo get_template_directory_uri().'/images/brands/amet5.png' ;?>" alt=""></div>
@@ -151,3 +152,5 @@ get_header(); ?>
 </div>
 
 <?php get_footer(); ?>
+
+

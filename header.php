@@ -68,7 +68,7 @@ if ( is_front_page() && ! is_customize_preview() ) :
 
 			<div class="navbar-header responsive-logo">
 
-				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+<!-- 				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
 
 				<span class="sr-only"><?php _e( 'Toggle navigation','zerif-lite' ); ?></span>
 
@@ -79,7 +79,7 @@ if ( is_front_page() && ! is_customize_preview() ) :
 				<span class="icon-bar"></span>
 
 				</button>
-
+ -->
 					<div class="navbar-brand" itemscope itemtype="http://schema.org/Organization">
 
 						<?php
@@ -129,17 +129,32 @@ if ( is_front_page() && ! is_customize_preview() ) :
 					<?php get_product_search_form(); ?>
 				</div>
 				<div class="as21_head_address">
-					Наш адрес: Чебоксары, ул. Калинина, 105а<br>
-					Время работы: пн-суб 10:00-21:00  воскр 10:00-20:00<br>
+					Наш адрес: Чебоксары, ул. Калинина, 105а <br>
+					Время работы: пн-суб 10:00-21:00  воскр 10:00-20:00
 				</div>
 				<div class="as21_head_contacts">
 					Контакты: <br>
+					<span>8-903-358-06-19</span>
 					<span>8-987-674-47-36</span>
 					<span>8-927-859-12-66</span>
 					<span>8-987-124-28-97</span>
 			</div>
+			<div class="as21_phone_menu"> <p>Меню</p>
+				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+
+				<span class="sr-only"><?php _e( 'Toggle navigation','zerif-lite' ); ?></span>
+
+				<span class="icon-bar"></span>
+
+				<span class="icon-bar"></span>
+
+				<span class="icon-bar"></span>
+
+				</button>
+			</div>
 
 		</div> <!-- /.container -->
+
 		<div class="as21-wrap-main-menu">
 		<div class="container">
 			<?php zerif_primary_navigation_trigger(); ?>

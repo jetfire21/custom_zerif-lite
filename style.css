@@ -3369,6 +3369,9 @@ textarea {
 	padding-bottom: 30px;
 	padding-top: 30px;
 	color: #ccc;
+	    display: table;
+    margin: 0 auto;
+    text-align: left;
 }
 .footer-widget-wrap .widget_calendar tbody td {
 	background-color: rgba(249, 249, 249, 0.75);
@@ -6896,13 +6899,13 @@ body.custom-background {
 /* alex */
 
 .woocommerce-page .products h2 { line-height: 18px; }
-.as21_wrap_search{ float:left;margin-top:13px;
+.as21_wrap_search{ float:left;
     overflow: hidden;}
 input[type="submit"]{padding: 5px 15px; }
 
 .home-bg-img{
-	background: url('images/bg-home_h600.jpg')  center center;
-	height: 600px;
+	background: url('images/bg-home_h600.jpg')  top center;
+	height: 560px;
 	width: 100%;
 	position: relative;
 }
@@ -6928,11 +6931,13 @@ input[type="submit"]{padding: 5px 15px; }
 }
 .home-bg-img h2{
 	 color: #fff;
-    font-size: 30px;
+    font-size: 26px;
     text-transform: uppercase;
     font-weight: bold;
         margin-bottom: 0;
 }
+
+.home-bg-img .berg-logo-right { float: right; margin: 20px; }
 
 .woocommerce-MyAccount-navigation ul li:first-child, li.woocommerce-MyAccount-navigation-link--dashboard{
 	display: none !important;
@@ -6940,6 +6945,10 @@ input[type="submit"]{padding: 5px 15px; }
 
 .as21_head_address, .as21_head_contacts{ float: left; margin-left: 25px; padding: 7px;   
 }
+
+.as21_head_address, .navbar-header{ padding-top: 20px;  }
+.navbar-brand{ padding-top: 0 !important; }
+.as21_wrap_search {padding-top: 30px;}
 .as21_head_contacts{float:right;}
 .as21_head_contacts span{display:block; font-size: 12px; line-height: 14px;}
 .as21-wrap-main-menu{ background: #b8341d ; width: 100% !important;}
@@ -6955,8 +6964,11 @@ input[type="submit"]{padding: 5px 15px; }
     left: 0;
     right: 0;
     margin: auto; }
-.as21_home_brands .col-md-2, .as21_home_brands .col-md-3{height: 110px; position: relative; width: 20%;}
-.as21_menu_cart {position: relative;}
+.as21_home_brands .col-md-2, .as21_home_brands .col-md-3{height: 110px; position: relative; width: 20%; float: left;}
+.as21_home_brands .brand-col{height: 110px; position: relative; width: 20%;}
+/*.as21_home_brands .col-xs-12{ width: 100%; }
+.as21_home_brands .col-xs-6{ width: 50%; }
+*/.as21_menu_cart {position: relative;}
 .as21_menu_cart .fa{
 	font-size: 20px;
     color: #fff;
@@ -6988,7 +7000,12 @@ input[type="submit"]{padding: 5px 15px; }
 .footer-widget:first-child{ text-align: left; }
 .navbar-inverse .navbar-nav ul.sub-menu{border-left:1px solid #e3e3e3;}
 .woocommerce form .form-row .input-checkbox {    margin: 9px 8px 0 0;  }
-
+ .navbar-brand { margin-top: -10px;}
+ .as21-way-payments { margin-top: -80px; }
+footer {padding:0 !important;}
+.as21_phone_menu{ clear: both; float: right;}
+.as21_phone_menu p{ margin:27px 0 0 0; float: left; display: none;}
+.as21_live_counter{ display: none; }
 
 
 /* media queries:  change number of items per row */
@@ -7016,6 +7033,7 @@ input[type="submit"]{padding: 5px 15px; }
 
 }
 @media screen and (max-width: 768px) {
+
 	.cbp-rfgrid li {
 		width: 50%; /* Fallback */
 		width: -webkit-calc(100% / 2);
@@ -7030,6 +7048,22 @@ input[type="submit"]{padding: 5px 15px; }
 		}
 	.navbar-inverse .navbar-nav ul.sub-menu li a {color: #fff;}
 
+	.home-bg-img h2 {
+	    font-size: 16px !important;
+	    line-height: 21px;
+
+	}
+	.home-bg-img {
+	    background: url(images/bg-home_h600.jpg) top center;
+ 		   height: 400px;
+	}
+	.as21_home_brands .brand-col{width: 50%; float:left;}
+	.as21_phone_menu p{display: block;}
+	.nav .has_children > a:after { content: ''; }
+	#main-nav .container {     border-bottom: 1px solid #e96656; }
+	ul.nav > li > a:before {background: none !important;}
+	.navbar-brand { width: 100%; margin:0 auto; padding:0; }
+
 
 }
 
@@ -7037,10 +7071,15 @@ input[type="submit"]{padding: 5px 15px; }
 	.cbp-rfgrid li {
 		width: 100%;
 	}
+	.woocommerce-page .products h2 {
+ 	   line-height: 29px;
+	}
+
 }
 
 @media screen and (max-width: 360px) {
 	.as21_head_address, .as21_head_contacts{ width: 100%; float:none !important; }
+	.as21_home_brands .brand-col{width: 100%; height: 130px;}
 }
 
 @media screen and (max-width: 300px) {

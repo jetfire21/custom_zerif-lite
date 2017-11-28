@@ -205,11 +205,26 @@ function zerif_footer_widgets_function() {
 		if ( is_active_sidebar( 'zerif-sidebar-footer' ) ) :
 			echo '<div class="footer-widget col-xs-12 col-sm-4">';
 			dynamic_sidebar( 'zerif-sidebar-footer' );
+			?>
+<div class="as21_live_counter">
+<!--LiveInternet counter--><script type="text/javascript">
+document.write("<a href='//www.liveinternet.ru/click' "+
+"target=_blank><img src='//counter.yadro.ru/hit?t45.6;r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";h"+escape(document.title.substring(0,150))+";"+Math.random()+
+"' alt='' title='LiveInternet' "+
+"border='0' width='31' height='31'><\/a>")
+</script><!--/LiveInternet-->
+</div>
+			<?php
 			echo '</div>';
 		endif;
 		if ( is_active_sidebar( 'zerif-sidebar-footer-2' ) ) :
 			echo '<div class="footer-widget col-xs-12 col-sm-4">';
 			dynamic_sidebar( 'zerif-sidebar-footer-2' );
+			echo '<img class="as21-way-payments" src="'.get_template_directory_uri().'/images/payments.png" >' ;
 			echo '</div>';
 		endif;
 		if ( is_active_sidebar( 'zerif-sidebar-footer-3' ) ) :

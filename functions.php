@@ -2045,7 +2045,19 @@ function iconic_cart_count_fragments( $fragments ) {
     return $fragments;    
 }
 
+
 //debug
+
+function deb_last_query(){
+
+	global $wpdb;
+	echo '<hr>';
+	echo "<b>last query:</b> ".$wpdb->last_query."<br>";
+	echo "<b>last result:</b> "; echo "<pre>"; print_r($wpdb->last_result); echo "</pre>";
+	echo "<b>last error:</b> "; echo "<pre>"; print_r($wpdb->last_error); echo "</pre>";
+	echo '<hr>';
+}
+
 
 // add_action("wp_footer",'as21_deb');
 function as21_deb(){
@@ -2069,3 +2081,313 @@ function woocommerce_header_add_to_cart_fragment( $fragments ) {
 	
 }
 */
+
+
+// only one time
+
+// add_action("wp_footer",'as21_add_mult_prods',999);
+function as21_add_mult_prods(){
+
+	// if( (bool)$_GET['dev'] !== true) exit;
+	if( (bool)$_GET['dev'] !== true) return false;
+
+	echo '<pre>';
+	$xml = FALSE; // будет возвращать массив со всеми продуктами
+
+	$init_load_url = TRUE;// при загрузке ПО ССЫЛКЕ выставить TRUE, при загрузке ДОКУМЕНТА выставить FALSE
+
+	$doc = new domDocument();
+	
+	$xml = file_get_contents('http://b2b.berghoffworldwide.ru/catalog_xml_export'); // загрузка файла по ссылке
+		
+    if( $xml = $doc->loadXML($xml) ) // используется, при загрузке файла по ссылке
+    {
+        $yaml = $doc->getElementsByTagName('yml_catalog');
+		
+		$yaml = $yaml->item(0);
+
+        $shop = $yaml->getElementsByTagName('shop');
+		
+		$shop = $shop->item(0);
+
+        $categories = $shop->getElementsByTagName('categories');
+		
+		$categories = $categories->item(0);
+
+        $icons = $shop->getElementsByTagName('specIcons');
+		
+		$icons = $icons->item(0);
+
+        $offers = $shop->getElementsByTagName('offers');
+		
+		$offers = $offers->item(0);
+            
+        $result = array();
+
+        /*Категории*/
+           
+        // Парсинг данных
+        foreach ( $categories->getElementsByTagName('category') as $category )
+        {
+            $title = preg_replace('/\s{2,}/', ' ', trim((string) $category->nodeValue));
+
+            $cid = (string) $category->getAttribute('id');
+
+            $parse_cat[$cid] = array(
+                'category_id' => $cid,
+                'parent_id'   => (string) ($category->getAttribute('parentId') ? $category->getAttribute('parentId') : 0),                 
+                'text'        => $title
+            );       
+			
+        }
+        //print_r($parse_cat); die();
+		$result['categories'] = $parse_cat;
+		
+		//Формирование массива данных
+                
+        /*/ Вывод категорий с подкатегориями
+        
+        foreach ($parse_cat as $item ) {
+            
+            if ($item['parent_id'] == 0)
+            {
+                foreach ($parse_cat as $childs)
+                {
+                    if($item['category_id'] == $childs['parent_id'])
+                    {
+                        $item['childs'][] = $childs;
+                    }
+                }
+                
+                $new_cats[] = $item;
+            }
+            
+        }
+               
+                   
+        
+        $result['categories'] = $new_cats;*/
+            
+        /*Иконки*/
+        
+        // Парсинг данных
+        
+        //Формирование массива данных
+        foreach ($icons->getElementsByTagName('icon') as $icon)
+        {
+			$id = $icon->getAttribute('id');
+            $childs = array('id' => $id);
+
+            $names = array('symbol','name','sortOrder','png','svg');
+
+            foreach ($icon->childNodes as $child)
+            {
+                if(in_array($child->nodeName, $names))
+                {
+                    $childs[ $child->nodeName ]  =  $child->nodeValue;
+                }
+            }
+
+            $parse_icons[$id] = $childs;
+        }
+            
+        $result['icons'] = $parse_icons;
+                       
+            
+        /*Продукты*/
+            
+        // Парсинг данных
+        
+        //Формирование массива данных
+        foreach ( $offers->getElementsByTagName('offer') as $offer )
+        {	
+			$pid = $offer->getAttribute('id');
+            $childs = array(
+
+                'id'        => $pid,
+                'available' => $offer->getAttribute('available'),
+                'param'     => array(),
+                'picture'   => array()
+            );
+
+            $names = array(
+
+                'name',
+                'price',
+                'oldprice',
+                'currencyId',
+                'vendor',
+                'description',
+                'manufacturer_warranty',
+                'barcode',
+                'categoryId',
+                'pictureTHUMB'
+            );
+
+            $picture = array(); //Формирование массива данных
+
+            foreach ($offer->childNodes as $child)
+            {
+                if( in_array($child->nodeName, $names) )
+                {
+                    $childs[ $child->nodeName ]  =  $child->nodeValue;
+                }
+                else if( $child->nodeName == 'categoriesList' )
+                {
+                    if( $child->hasChildNodes() )
+                    {
+                        $parent_categories = array();
+
+                        foreach( $child->childNodes as $node)
+                        {
+                            if( ($node->nodeName == 'item')  &&  (!empty($node->nodeValue)) )
+                            {
+                                $parent_categories[] = array(
+
+                                    'item' => $node->nodeValue
+                                );
+                            }
+                        }
+
+                        if( ! empty($parent_categories) )
+                        {
+                            $childs[ $child->nodeName ] = $parent_categories;
+                        }
+                    }
+                }
+                else if( $child->nodeName == 'param' )
+                {
+					$param_name = $child->getAttribute('name');
+					
+                    $childs['param'][$param_name] = array(
+
+                        'name'  => $param_name,
+                        'value' => $child->nodeValue,
+                        'unit'  => $child->getAttribute('unit')
+
+                    );
+                }
+                else if( $child->nodeName == 'picture' )
+                {
+                    $childs['picture'][] = $child->nodeValue;
+                }
+                else if( $child->nodeName == 'pictureTHUMB' )
+                {
+                    $childs['picture_thumb'] = $child->nodeValue;
+                }
+            }
+
+            $parse_offers[$pid] = $childs;             
+        }
+        
+		$result['offers'] = $parse_offers;
+                       
+        //return $result; //Вывод массива с данными парсера
+		
+		echo '<pre>'; 
+			//var_dump($result); 
+			// print_r($result);
+		echo '</pre>'; 
+
+
+        // $ids = array(3700086,3700088,3700089,3700090,3700093,3700155,3700156,3700157,3700158,3700160,3700161,3700162,3700163,3700164,3700165,3700168,3700169,3700170);
+        $ids = array(3700171,3700172,3700174,3700175,3700176,3700177,3700178,3700179,3700181,3700182);
+
+        // $ids = array(3700085);
+        echo 'количество товаров-'.count($ids).'<hr>';
+            // print_r($result['offers']);
+        foreach ($result['offers'] as $k => $v) {
+            foreach ($ids as $k2=>$v2) {
+                if( $k == $v2) $res[$k] = $v;
+            }
+        }
+        // print_r($res);
+
+        foreach ($res as $i_k => $i_v) {
+        	// if($i_k != 3700085) break;
+        	//21 - id cat кастрюли 20-сковороды и сотейники
+    		if( (int)$i_v['categoryId'] == 102) $prod_cat= 21;
+        	if( (int)$i_v['categoryId'] == 103) $prod_cat= 21;
+        	if( (int)$i_v['categoryId'] == 104) $prod_cat= 20;
+        	if( (int)$i_v['categoryId'] == 105) $prod_cat= 20;
+        	echo $prod_cat;
+        	echo $i_v['id'];
+        	echo $i_v['name'];
+        	$params = '';
+        	foreach ($i_v['param'] as $p_k => $p_v) {
+        		if ($p_k == 'specIcons') continue;
+        		$params .= '<li>'.$p_k.': '.$p_v['value'].' '.$p_v['unit']."</li>";
+        	}
+        	echo $params = '<ul>'.$params.'</ul>';
+        	echo $i_v['picture'][0];
+        	echo $i_v['price'];
+        	echo $i_v['description'];
+        	echo '<hr>';
+        	//
+
+        	 $post_id = wp_insert_post( array(
+		        'post_author' => 1,
+		        'post_title' => $i_v['name'],
+		        'post_content' => $i_v['description'].$params,
+		        'post_status' => 'publish',
+		        'post_type' => "product",
+		        // 'post_category' => array(20,26)
+		    ) );
+
+		    // if we are in frontend
+			require_once ABSPATH . 'wp-admin/includes/media.php';
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			require_once ABSPATH . 'wp-admin/includes/image.php';
+
+			// $url = 'http://b2b.berghoffworldwide.ru/catalog_xml_export/productsPhoto/1399843/01.jpg';
+			$url = $i_v['picture'][0];
+			$desc = "";
+
+			// Download an image from the specified URL and attach it to a post
+			$attachment = media_sideload_image( $url, $post_id, $desc,'id' );
+			// var_dump($attachment);
+			// deb_last_query();
+
+			// set featured image to post
+			add_post_meta($post_id, '_thumbnail_id', $attachment);
+			// deb_last_query();
+
+			// Relates an object (post, link etc) to a term and taxonomy type (tag, category, etc). Creates the term and taxonomy relationship if it doesn't already exist.
+			wp_set_object_terms( $post_id, $prod_cat, 'product_cat' );
+			// deb_last_query();
+			// exit;
+
+		    wp_set_object_terms( $post_id, 'simple', 'product_type' );
+		    update_post_meta( $post_id, '_visibility', 'visible' );
+		    update_post_meta( $post_id, '_stock_status', 'instock');
+		    update_post_meta( $post_id, 'total_sales', '0' );
+		    update_post_meta( $post_id, '_downloadable', 'no' );
+		    update_post_meta( $post_id, '_virtual', 'yes' );
+		    update_post_meta( $post_id, '_regular_price', $i_v['price']); // цена внтурти отдельного продукта
+		    update_post_meta( $post_id, '_sale_price', '' );
+		    update_post_meta( $post_id, '_purchase_note', '' );
+		    update_post_meta( $post_id, '_featured', 'no' );
+		    update_post_meta( $post_id, '_weight', '' );
+		    update_post_meta( $post_id, '_length', '' );
+		    update_post_meta( $post_id, '_width', '' );
+		    update_post_meta( $post_id, '_height', '' );
+		    update_post_meta( $post_id, '_sku', $i_v['id'] ); // артикул
+		    update_post_meta( $post_id, '_product_attributes', array() );
+		    update_post_meta( $post_id, '_sale_price_dates_from', '' );
+		    update_post_meta( $post_id, '_sale_price_dates_to', '' );
+		    update_post_meta( $post_id, '_price', $i_v['price'] ); // цена в таблице продуктов
+		    update_post_meta( $post_id, '_sold_individually', '' );
+		    update_post_meta( $post_id, '_manage_stock', 'no' );
+		    update_post_meta( $post_id, '_backorders', 'no' );
+		    update_post_meta( $post_id, '_stock', '' );
+
+		 }
+
+        echo '<hr>кол-во товаров: '.count($result['offers']);
+        }
+        else
+        {
+            echo 'not load';
+        }    
+
+}
