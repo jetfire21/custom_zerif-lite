@@ -133,11 +133,16 @@ if ( is_front_page() && ! is_customize_preview() ) :
 					Время работы: пн-суб 10:00-21:00  воскр 10:00-20:00
 				</div>
 				<div class="as21_head_contacts">
-					Контакты: <br>
-					<span>8-903-358-06-19</span>
+					<div class="as21-hc-otdel" >
+					Отдел продаж: <br>
 					<span>8-987-674-47-36</span>
 					<span>8-927-859-12-66</span>
 					<span>8-987-124-28-97</span>
+					</div>
+					<div class="as21-hc-shop">
+					Интернет-магазин:<br>
+					<span>8-903-358-06-19</span>
+					</div>
 			</div>
 			<div class="as21_phone_menu"> <p>Меню</p>
 				<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
